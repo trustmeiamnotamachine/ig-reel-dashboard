@@ -45,7 +45,9 @@ def index():
     try:
         with open("static/index.html", "r") as f:
             html = f.read()
-        api_base = request.url_root.rstrip("/")
+        # Force HTTPS - Render serves HTTPS but Flask sees HTTP internally
+        host = request.headers.get('X-Forwarded-Host', request.host)
+        api_base = f"https://{host}"
         html = html.replace('const API_BASE = "/api";', f'const API_BASE = "{api_base}/api";')
         return html
     except FileNotFoundError:
