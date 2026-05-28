@@ -45,10 +45,8 @@ def index():
     try:
         with open("static/index.html", "r") as f:
             html = f.read()
-        # Force HTTPS - Render serves HTTPS but Flask sees HTTP internally
-        host = request.headers.get('X-Forwarded-Host', request.host)
-        api_base = f"https://{host}"
-        html = html.replace('const API_BASE = "/api";', f'const API_BASE = "{api_base}/api";')
+        # Use relative path - browser will auto-use same protocol (HTTPS) and host
+        html = html.replace('const API_BASE = "/api";', 'const API_BASE = window.location.origin + "/api";')
         return html
     except FileNotFoundError:
         return "<h1>Error: static/index.html not found</h1>", 500

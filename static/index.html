@@ -61,10 +61,15 @@ const IC={
 };
 
 async function api(m,p,b=null){
-  const r=await fetch(API_BASE+p,{method:m,headers:b?{"Content-Type":"application/json"}:{},body:b?JSON.stringify(b):null});
-  const d=await r.json();
-  if(!r.ok)throw new Error(d.error||`HTTP ${r.status}`);
-  return d;
+  try{
+    const r=await fetch(API_BASE+p,{method:m,headers:b?{"Content-Type":"application/json"}:{},body:b?JSON.stringify(b):null});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||`HTTP ${r.status}`);
+    return d;
+  }catch(e){
+    console.error(`API ${m} ${p} failed:`,e.message);
+    throw new Error(`${e.message} (API: ${m} ${API_BASE}${p})`);
+  }
 }
 
 function App(){
