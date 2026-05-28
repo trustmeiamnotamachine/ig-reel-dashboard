@@ -42,14 +42,7 @@ def _apify_request(method, path, body=None):
 @app.route("/")
 def index():
     """Serve the main dashboard"""
-    try:
-        with open("static/index.html", "r") as f:
-            html = f.read()
-        # Use relative path - browser will auto-use same protocol (HTTPS) and host
-        html = html.replace('const API_BASE = "/api";', 'const API_BASE = window.location.origin + "/api";')
-        return html
-    except FileNotFoundError:
-        return "<h1>Error: static/index.html not found</h1>", 500
+    return send_from_directory("static", "index.html")
 
 
 @app.route("/pricing")
