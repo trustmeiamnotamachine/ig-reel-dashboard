@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram Reel Scraper - Pricing & Features</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#E1306C',
+            secondary: '#833AB4',
+            accent: '#F77737',
+            dark: '#0f0f1a',
+            darker: '#0a0a12',
+            card: '#1a1a2e',
+            surface: '#242442',
+            border: '#2d2d4a',
+            muted: '#6b6b8d',
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; background: #0f0f1a; color: #e0e0e0; }
+    .gradient-text { background: linear-gradient(135deg, #E1306C, #833AB4, #F77737); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .gradient-border { position: relative; }
+    .gradient-border::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+    .glow { box-shadow: 0 0 40px rgba(225, 48, 108, 0.15); }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+    .feature-icon { background: linear-gradient(135deg, rgba(225,48,108,0.15), rgba(131,58,180,0.15)); }
+    .slider { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; background: #2d2d4a; outline: none; }
+    .slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #E1306C, #833AB4); cursor: pointer; box-shadow: 0 0 10px rgba(225,48,108,0.5); }
+    .slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #E1306C, #833AB4); cursor: pointer; border: none; }
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .animate-in { animation: fadeInUp 0.5s ease-out forwards; }
+    .token-hidden { -webkit-text-security: disc; }
+    .check-gradient { background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- Nav -->
+  <nav class="border-b border-border bg-darker/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div>
+          <h1 class="text-white font-bold text-sm">Reel Analytics</h1>
+          <p class="text-muted text-xs">Powered by Apify</p>
+        </div>
+      </div>
+      <a href="index.html" class="text-sm text-primary hover:text-white transition-colors font-medium">Go to Dashboard &rarr;</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="max-w-6xl mx-auto px-6 pt-16 pb-12 text-center animate-in">
+    <div class="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-6">
+      <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+      <span class="text-primary text-xs font-medium">Apify Instagram Reel Scraper</span>
+    </div>
+    <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+      <span class="gradient-text">Scrape Any Instagram</span><br>
+      <span class="text-white">Account's Reels</span>
+    </h1>
+    <p class="text-muted text-lg max-w-2xl mx-auto mb-8">
+      Get transcripts, captions, engagement metrics, hashtags, CTA keywords, auto-detected topics, and more. All paginated at 10 reels per view.
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-muted">
+      <span class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> No login required</span>
+      <span class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Pay per use</span>
+      <span class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Export JSON/CSV</span>
+    </div>
+  </section>
+
+  <!-- Token Section -->
+  <section class="max-w-2xl mx-auto px-6 mb-16 animate-in" style="animation-delay:0.1s">
+    <div class="gradient-border rounded-2xl bg-card p-6 glow">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-white font-semibold text-sm">Your API Token (Pre-configured)</h3>
+        <span class="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded-full flex items-center gap-1">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Active
+        </span>
+      </div>
+      <div class="flex gap-2">
+        <input id="tokenInput" type="password" value="" placeholder="Token auto-loaded from backend"
+          class="flex-1 bg-darker border border-border rounded-xl px-4 py-3 text-sm text-white font-mono focus:outline-none focus:border-primary" readonly>
+        <button onclick="toggleToken()" class="bg-surface hover:bg-border text-white px-4 py-3 rounded-xl text-sm transition-colors flex items-center gap-2">
+          <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span id="eyeText">Show</span>
+        </button>
+        <button onclick="copyToken()" class="bg-primary hover:bg-primary/80 text-white px-4 py-3 rounded-xl text-sm transition-colors flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+      <p class="text-muted text-xs mt-3">Token saved to browser. Never share this token publicly.</p>
+    </div>
+  </section>
+
+  <!-- Cost Calculator -->
+  <section class="max-w-6xl mx-auto px-6 mb-16 animate-in" style="animation-delay:0.2s">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl font-bold text-white mb-3">Cost Calculator</h2>
+      <p class="text-muted">Based on Apify's <strong class="text-white">$2.60 per 1,000 results</strong> pricing</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      <!-- 50 Reels -->
+      <div class="card-hover rounded-2xl bg-card border border-border p-6 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full"></div>
+        <div class="relative">
+          <div class="text-muted text-sm font-medium mb-1">Starter Pack</div>
+          <div class="text-4xl font-extrabold text-white mb-1">50 <span class="text-lg font-medium text-muted">reels</span></div>
+          <div class="text-3xl font-bold gradient-text mb-4">~$0.13</div>
+          <ul class="space-y-2.5 mb-6">
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Full captions</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Transcripts included</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Likes & comments</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Hashtags & CTA keywords</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Auto topic detection</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> JSON + CSV export</li>
+          </ul>
+          <a href="index.html" class="block w-full text-center bg-surface hover:bg-border border border-border text-white py-3 rounded-xl text-sm font-medium transition-colors">Scrape 50 Reels</a>
+        </div>
+      </div>
+
+      <!-- 100 Reels -->
+      <div class="card-hover rounded-2xl bg-card border-2 border-primary/50 p-6 relative overflow-hidden glow">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold px-3 py-1 rounded-full">MOST POPULAR</div>
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/20 to-transparent rounded-bl-full"></div>
+        <div class="relative pt-3">
+          <div class="text-primary text-sm font-medium mb-1">Pro Pack</div>
+          <div class="text-4xl font-extrabold text-white mb-1">100 <span class="text-lg font-medium text-muted">reels</span></div>
+          <div class="text-3xl font-bold gradient-text mb-4">~$0.26</div>
+          <ul class="space-y-2.5 mb-6">
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Everything in 50-pack</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> 2x the data</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Better trend analysis</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Full account overview</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Engagement patterns</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> 10 pages of insights</li>
+          </ul>
+          <a href="index.html" class="block w-full text-center bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white py-3 rounded-xl text-sm font-medium transition-opacity">Scrape 100 Reels</a>
+        </div>
+      </div>
+
+      <!-- Custom Calculator -->
+      <div class="card-hover rounded-2xl bg-card border border-border p-6 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-accent/10 to-transparent rounded-bl-full"></div>
+        <div class="relative">
+          <div class="text-accent text-sm font-medium mb-1">Custom Amount</div>
+          <div class="text-4xl font-extrabold text-white mb-1" id="customReelsDisplay">500</div>
+          <div class="text-3xl font-bold gradient-text mb-4" id="customCostDisplay">~$1.30</div>
+          
+          <div class="mb-4">
+            <input type="range" min="1" max="1000" value="500" class="slider w-full" id="reelSlider" oninput="updateCustomCost(this.value)">
+            <div class="flex justify-between text-xs text-muted mt-2">
+              <span>1 reel</span>
+              <span id="sliderValue">500 reels</span>
+              <span>1000 reels</span>
+            </div>
+          </div>
+          
+          <ul class="space-y-2.5 mb-6">
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Full control over amount</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Same price per reel</li>
+            <li class="flex items-start gap-2 text-sm text-gray-300"><svg class="mt-0.5 flex-shrink-0 check-gradient" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> No hidden fees</li>
+          </ul>
+          <a href="index.html" class="block w-full text-center bg-surface hover:bg-border border border-border text-white py-3 rounded-xl text-sm font-medium transition-colors">Go to Dashboard</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cost Breakdown Table -->
+    <div class="rounded-2xl bg-card border border-border overflow-hidden">
+      <div class="px-6 py-4 border-b border-border">
+        <h3 class="text-white font-semibold text-sm">Detailed Cost Breakdown</h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-border text-left">
+              <th class="px-6 py-3 text-xs font-medium text-muted">Reels</th>
+              <th class="px-6 py-3 text-xs font-medium text-muted">Compute Units</th>
+              <th class="px-6 py-3 text-xs font-medium text-muted">Platform Fee</th>
+              <th class="px-6 py-3 text-xs font-medium text-muted">Total Cost</th>
+              <th class="px-6 py-3 text-xs font-medium text-muted">Per Reel</th>
+              <th class="px-6 py-3 text-xs font-medium text-muted">Your Balance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-border/50 hover:bg-white/5 transition-colors">
+              <td class="px-6 py-4 text-sm text-white font-medium">10 reels</td>
+              <td class="px-6 py-4 text-sm text-muted">~0.01 CU</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.01</td>
+              <td class="px-6 py-4 text-sm text-primary font-bold">~$0.03</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.003</td>
+              <td class="px-6 py-4 text-sm text-green-400">$4.97 left</td>
+            </tr>
+            <tr class="border-b border-border/50 hover:bg-white/5 transition-colors">
+              <td class="px-6 py-4 text-sm text-white font-medium">50 reels</td>
+              <td class="px-6 py-4 text-sm text-muted">~0.05 CU</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.03</td>
+              <td class="px-6 py-4 text-sm text-primary font-bold">~$0.13</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.0026</td>
+              <td class="px-6 py-4 text-sm text-green-400">$4.87 left</td>
+            </tr>
+            <tr class="border-b border-border/50 hover:bg-white/5 transition-colors bg-primary/5">
+              <td class="px-6 py-4 text-sm text-white font-medium">100 reels</td>
+              <td class="px-6 py-4 text-sm text-muted">~0.10 CU</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.05</td>
+              <td class="px-6 py-4 text-sm text-primary font-bold">~$0.26</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.0026</td>
+              <td class="px-6 py-4 text-sm text-green-400">$4.74 left</td>
+            </tr>
+            <tr class="border-b border-border/50 hover:bg-white/5 transition-colors">
+              <td class="px-6 py-4 text-sm text-white font-medium">250 reels</td>
+              <td class="px-6 py-4 text-sm text-muted">~0.25 CU</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.13</td>
+              <td class="px-6 py-4 text-sm text-primary font-bold">~$0.65</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.0026</td>
+              <td class="px-6 py-4 text-sm text-green-400">$4.35 left</td>
+            </tr>
+            <tr class="border-b border-border/50 hover:bg-white/5 transition-colors">
+              <td class="px-6 py-4 text-sm text-white font-medium">500 reels</td>
+              <td class="px-6 py-4 text-sm text-muted">~0.50 CU</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.26</td>
+              <td class="px-6 py-4 text-sm text-primary font-bold">~$1.30</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.0026</td>
+              <td class="px-6 py-4 text-sm text-green-400">$3.70 left</td>
+            </tr>
+            <tr class="hover:bg-white/5 transition-colors">
+              <td class="px-6 py-4 text-sm text-white font-medium">1000 reels</td>
+              <td class="px-6 py-4 text-sm text-muted">~1.00 CU</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.52</td>
+              <td class="px-6 py-4 text-sm text-primary font-bold">~$2.60</td>
+              <td class="px-6 py-4 text-sm text-muted">$0.0026</td>
+              <td class="px-6 py-4 text-sm text-green-400">$2.40 left</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="px-6 py-4 border-t border-border bg-darker/50">
+        <p class="text-xs text-muted">
+          Your current Apify balance: <strong class="text-white">$5.00</strong> (Free tier). Prices include platform fee ($0.40/CU + actor charges). Actual cost may vary slightly based on scraping complexity.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What You Get -->
+  <section class="max-w-6xl mx-auto px-6 mb-16 animate-in" style="animation-delay:0.3s">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl font-bold text-white mb-3">What You Get After Scraping</h2>
+      <p class="text-muted">30+ data points extracted from every single reel</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Caption -->
+      <div class="card-hover rounded-xl bg-card border border-border p-5">
+        <div class="feature-icon w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h4 class="text-white font-semibold text-sm mb-1">Full Caption</h4>
+        <p class="text-muted text-xs">Complete reel caption text with line breaks preserved, including all CTAs and promotional text.</p>
+      </div>
+
+      <!-- Transcript -->
+      <div class="card-hover rounded-xl bg-card border border-border p-5">
+        <div class="feature-icon w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </div>
+        <h4 class="text-white font-semibold text-sm mb-1">Audio Transcript</h4>
+        <p class="text-muted text-xs">Full speech-to-text of the reel's audio. Only available when "Include Transcript" is enabled.</p>
+      </div>
+
+      <!-- Topic Detection -->
+      <div class="card-hover rounded-xl bg-card border border-border p-5">
+        <div class="feature-icon w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <h4 class="text-white font-semibold text-sm mb-1">Auto Topic Detection</h4>
+        <p class="text-muted text-xs">AI-categorized topics: Coding, Image Gen, Agents, 3D, Marketing, Video, Design, Security, etc.</p>
+      </div>
+
+      <!-- Engagement -->
+      <div class="card-hover rounded-xl bg-card border border-border p-5">
+        <div class="feature-icon w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h4 class="text-white font-semibold text-sm mb-1">Engagement Metrics</h4>
+        <p class="text-muted text-xs">Exact like count, comment count, view count, play count, and video duration for each reel.</p>
+      </div>
+
+      <!-- CTA -->
+      <div class="card-hover rounded-xl bg-card border border-border p-5">
+        <div class="feature-icon w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h4 class="text-white font-semibold text-sm mb-1">CTA Keyword</h4>
+        <p class="text-muted text-xs">Extracts the DM trigger keyword (e.g., "SETUP", "GOOGLE", "CODES") from the first comment.</p>
+      </div>
+
+      <!-- Hashtags -->
+      <div class="card-hover rounded-xl bg-card border border-border p-5">
+        <div class="feature-icon w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+        </div>
+        <h4 class="text-white font-semibold text-sm mb-1">Hashtags & Mentions</h4>
+        <p class="text-muted text-xs">All hashtags used and @mentions extracted as structured arrays for easy analysis.</p>
+      </div>
+
+      <!-- URL -->
+      <div class="card-hover rounded-xl bg-card border border-border p-5">
+        <div class="feature-icon w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <h4 class="text-white font-semibold text-sm mb-1">Direct URL</h4>
+        <p class="text-muted text-xs">Direct Instagram link to each reel so you can open and watch it with one click.</p>
+      </div>
+
+      <!-- Thumbnail -->
+      <div class="card-hover rounded-xl bg-card border border-border p-5">
+        <div class="feature-icon w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <h4 class="text-white font-semibold text-sm mb-1">Thumbnail Image</h4>
+        <p class="text-muted text-xs">High-quality thumbnail URL for each reel, displayed in the dashboard results table.</p>
+      </div>
+
+      <!-- Timestamp -->
+      <div class="card-hover rounded-xl bg-card border border-border p-5">
+        <div class="feature-icon w-10 h-10 rounded-lg flex items-center justify-center mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h4 class="text-white font-semibold text-sm mb-1">Post Date</h4>
+        <p class="text-muted text-xs">Exact timestamp of when each reel was posted. Sortable by date in the dashboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Preview -->
+  <section class="max-w-6xl mx-auto px-6 mb-16 animate-in" style="animation-delay:0.4s">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl font-bold text-white mb-3">Dashboard Features</h2>
+      <p class="text-muted">Everything organized at 10 reels per page</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="card-hover rounded-xl bg-card border border-border p-5 text-center">
+        <div class="text-3xl font-extrabold gradient-text mb-1">10</div>
+        <div class="text-sm text-muted">Reels per page</div>
+        <div class="text-xs text-muted mt-2">Easy to scan and compare</div>
+      </div>
+      <div class="card-hover rounded-xl bg-card border border-border p-5 text-center">
+        <div class="text-3xl font-extrabold gradient-text mb-1">3</div>
+        <div class="text-sm text-muted">Sort options</div>
+        <div class="text-xs text-muted mt-2">By likes, comments, or date</div>
+      </div>
+      <div class="card-hover rounded-xl bg-card border border-border p-5 text-center">
+        <div class="text-3xl font-extrabold gradient-text mb-1">2</div>
+        <div class="text-sm text-muted">Export formats</div>
+        <div class="text-xs text-muted mt-2">JSON and CSV downloads</div>
+      </div>
+      <div class="card-hover rounded-xl bg-card border border-border p-5 text-center">
+        <div class="text-3xl font-extrabold gradient-text mb-1">30+</div>
+        <div class="text-sm text-muted">Data fields</div>
+        <div class="text-xs text-muted mt-2">Per reel extracted</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-3xl mx-auto px-6 mb-16 text-center animate-in" style="animation-delay:0.5s">
+    <div class="gradient-border rounded-3xl bg-card p-10 glow">
+      <div class="relative">
+        <h2 class="text-3xl font-bold text-white mb-4">Ready to Start Scraping?</h2>
+        <p class="text-muted mb-6">Your token is pre-configured. Just enter an Instagram username and hit scrape.</p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="index.html" class="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white px-8 py-4 rounded-2xl text-base font-bold transition-opacity inline-flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Launch Dashboard
+          </a>
+        </div>
+        <p class="text-muted text-xs mt-4">Current balance: $5.00 free credit &middot; No credit card required</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-border py-8 text-center text-xs text-muted">
+    <p>Powered by <a href="https://apify.com" target="_blank" class="text-primary hover:underline">Apify</a> &middot; Instagram Reel Scraper Actor</p>
+  </footer>
+
+  <script>
+    // Auto-save token to localStorage for dashboard
+    (function() {
+      const TOKEN = localStorage.getItem('apifyToken') || ''; // Set via dashboard or env var
+      try { localStorage.setItem('apifyToken', TOKEN); } catch(e) {}
+    })();
+
+    // Custom cost calculator
+    function updateCustomCost(value) {
+      const reels = parseInt(value);
+      const cost = (reels * 0.0026).toFixed(2);
+      document.getElementById('customReelsDisplay').textContent = reels;
+      document.getElementById('customCostDisplay').textContent = '~$' + cost;
+      document.getElementById('sliderValue').textContent = reels + ' reels';
+    }
+
+    // Token toggle
+    function toggleToken() {
+      const input = document.getElementById('tokenInput');
+      const icon = document.getElementById('eyeIcon');
+      const text = document.getElementById('eyeText');
+      if (input.type === 'password') {
+        input.type = 'text';
+        text.textContent = 'Hide';
+        icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+      } else {
+        input.type = 'password';
+        text.textContent = 'Show';
+        icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+      }
+    }
+
+    // Copy token
+    function copyToken() {
+      const input = document.getElementById('tokenInput');
+      input.type = 'text';
+      input.select();
+      document.execCommand('copy');
+      input.type = 'password';
+      const btn = event.currentTarget;
+      const original = btn.innerHTML;
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+      btn.classList.remove('bg-primary');
+      btn.classList.add('bg-green-500');
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.classList.add('bg-primary');
+        btn.classList.remove('bg-green-500');
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
