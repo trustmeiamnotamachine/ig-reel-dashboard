@@ -31,7 +31,7 @@ body{background:#0f0f1a;color:#e0e0e0;font-family:'Inter',system-ui,sans-serif;m
 <div id="r"></div>
 <script type="text/babel">
 const {useState}=React;
-const API_BASE = "/api";
+const API_BASE = window.location.origin + "/api";
 const TOP={'AI Coding':['code','coding','developer','github','cursor','claude code','programming','jules'],'AI Image':['image','photo','generate','generator','midjourney','dalle','upscale','luma'],'AI Agents':['agent','agents','workflow','automation','multi-agent','swarm','flow'],'AI 3D':['3d','blender','render','mesh','trellis'],'AI Marketing':['marketing','discount','codes','money','business','agency'],'AI Video':['video','animation','animated','story','clip'],'Local AI':['local','gpu','vran','hyperspace'],'AI Design':['design','illustration','art','studio','scroll']};
 function dt(c){if(!c)return'General';const l=c.toLowerCase();for(const[t,k]of Object.entries(TOP))if(k.some(x=>l.includes(x)))return t;return'General AI'}
 function fn(n){if(!n)return'0';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return''+n}
