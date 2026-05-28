@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Reel Analytics Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>
+tailwind.config={theme:{extend:{colors:{primary:'#E1306C',secondary:'#833AB4',dark:'#0f0f1a',darker:'#0a0a12',card:'#1a1a2e',surface:'#242442',border:'#2d2d4a',muted:'#6b6b8d'}}}};
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;color:#e0e0e0;font-family:'Inter',system-ui,sans-serif;min-height:100vh}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:#0f0f1a}
+::-webkit-scrollbar-thumb{background:#2d2d4a;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#E1306C}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.a1{animation:spin 2s linear infinite}
+.a2{animation:fadeIn .4s ease-out forwards}
+.t2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cb{accent-color:#E1306C;width:16px;height:16px;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="r"></div>
+<script type="text/babel">
+const {useState}=React;
+const API_BASE = "/api";
+const TOP={'AI Coding':['code','coding','developer','github','cursor','claude code','programming','jules'],'AI Image':['image','photo','generate','generator','midjourney','dalle','upscale','luma'],'AI Agents':['agent','agents','workflow','automation','multi-agent','swarm','flow'],'AI 3D':['3d','blender','render','mesh','trellis'],'AI Marketing':['marketing','discount','codes','money','business','agency'],'AI Video':['video','animation','animated','story','clip'],'Local AI':['local','gpu','vran','hyperspace'],'AI Design':['design','illustration','art','studio','scroll']};
+function dt(c){if(!c)return'General';const l=c.toLowerCase();for(const[t,k]of Object.entries(TOP))if(k.some(x=>l.includes(x)))return t;return'General AI'}
+function fn(n){if(!n)return'0';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return''+n}
+function fd(t){return t?new Date(t).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'-'}
+
+const I=({s=16,c='',children})=><svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={c}>{children}</svg>;
+const IC={
+  In:()=><I s={20}><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></I>,
+  Se:()=><I><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></I>,
+  Lo:()=><I c="a1"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></I>,
+  He:()=><I><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></I>,
+  Ms:()=><I><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></I>,
+  Ey:()=><I><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></I>,
+  Fi:()=><I><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></I>,
+  Ex:()=><I><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></I>,
+  Ca:()=><I><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></I>,
+  Tr:()=><I><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></I>,
+  Mi:()=><I><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></I>,
+  Ch:()=><I><polyline points="20 6 9 17 4 12"/></I>,
+  Al:()=><I><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></I>,
+  Dl:()=><I><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></I>,
+  De:()=><I><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></I>,
+  Wr:()=><I><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></I>,
+  Wi:()=><I><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></I>,
+  CU:()=><I><polyline points="18 15 12 9 6 15"/></I>,
+  CD:()=><I><polyline points="6 9 12 15 18 9"/></I>,
+};
+
+async function api(m,p,b=null){
+  const r=await fetch(API_BASE+p,{method:m,headers:b?{"Content-Type":"application/json"}:{},body:b?JSON.stringify(b):null});
+  const d=await r.json();
+  if(!r.ok)throw new Error(d.error||`HTTP ${r.status}`);
+  return d;
+}
+
+function App(){
+  const [user,setUser]=useState("") ,[maxR,setMaxR]=useState(50),[ph,setPh]=useState("idle"),[st,setSt]=useState(""),[err,setErr]=useState(""),[reels,setReels]=useState([]),[sel,setSel]=useState(new Set()),[exp,setExp]=useState(null),[sb,setSb]=useState("timestamp"),[sd,setSd]=useState("desc"),[pg,setPg]=useState(1),[sa,setSa]=useState(false),[hv,setHv]=useState(false),[showD,setShowD]=useState(false),[diag,setDiag]=useState(null);
+  const pp=10;
+
+  const healthCheck=async()=>{try{const r=await api("GET","/health");setHv(r.apify_connected);}catch{setHv(false);}};
+  useState(()=>{healthCheck();});
+
+  const runDiag=async()=>{
+    setShowD(true);setDiag([]);
+    const R=[],add=(n,s,d)=>{R.push({name:n,status:s,detail:d});setDiag([...R]);};
+    add("Backend reachable","run","");
+    try{await fetch(API_BASE+"/health");add("Backend reachable","pass","Yes");}catch(e){add("Backend reachable","fail",e.message);return;}
+    add("Apify connected","run","");
+    try{const r=await api("GET","/health");add("Apify connected",r.apify_connected?"pass":"fail",r.user||"");}catch(e){add("Apify connected","fail",e.message);}
+    add("Start test scrape","run","");
+    try{const r=await api("POST","/scrape",{username:"theaisurfer",maxReels:1});add("Start test scrape","pass","Run: "+r.runId.slice(0,8));}catch(e){add("Start test scrape","fail",e.message);}
+  };
+
+  const scrape=async()=>{
+    if(!user.trim()){setErr("Enter username");return;}
+    setErr("");setPh("s");setSt("Starting...");setReels([]);setSel(new Set());setPg(1);setExp(null);
+    try{
+      const r=await api("POST","/scrape",{username:user.trim().replace(/^@/,""),maxReels:parseInt(maxR),includeTranscript:true});
+      const rid=r.runId,dsid=r.datasetId;
+      setSt("Scraping... (~30-90s)");
+      let at=0;
+      const poll=async()=>{
+        at++;if(at>120){setErr("Timed out");setPh("idle");return;}
+        try{
+          const r2=await api("GET",`/status/${rid}`);
+          setSt(`${r2.status} — ${r2.itemCount||0} reels`);
+          if(r2.status==="SUCCEEDED"){loadR(dsid);}
+          else if(["FAILED","TIMED_OUT","ABORTED"].includes(r2.status)){setErr(`Scrape ${r2.status.toLowerCase()}: ${r2.statusMessage||""}`);setPh("idle");}
+          else{setTimeout(poll,3000);}
+        }catch(e){setSt(`Retry ${at}/120...`);setTimeout(poll,3000);}
+      };
+      poll();
+    }catch(e){setErr(`Failed: ${e.message}`);setPh("idle");}
+  };
+
+  const loadR=async(dsid)=>{
+    setSt("Loading results...");
+    try{const r=await api("GET",`/results/${dsid}?limit=1000`);setReels(r);setPh("r");setSt(`${r.length} reels loaded`);}
+    catch(e){setErr("Load failed: "+e.message);setPh("idle");}
+  };
+
+  const sorted=[...reels].sort((a,b)=>{
+    let av,bv;
+    if(sb==="likes"){av=a.likesCount||0;bv=b.likesCount||0;}
+    else if(sb==="comments"){av=a.commentsCount||0;bv=b.commentsCount||0;}
+    else if(sb==="views"){av=a.videoViewCount||0;bv=b.videoViewCount||0;}
+    else if(sb==="ix"){av=(a.likesCount||0)+(a.commentsCount||0);bv=(b.likesCount||0)+(b.commentsCount||0);}
+    else{av=new Date(a.timestamp||0).getTime();bv=new Date(b.timestamp||0).getTime();}
+    return sd==="asc"?(av>bv?1:-1):(av<bv?1:-1);
+  });
+  const tp=Math.ceil(sorted.length/pp),pr=sorted.slice((pg-1)*pp,pg*pp);
+  const tl=reels.reduce((s,r)=>s+(r.likesCount||0),0),tc=reels.reduce((s,r)=>s+(r.commentsCount||0),0),tv=reels.reduce((s,r)=>s+(r.videoViewCount||0),0),sc=sel.size;
+
+  const tSel=(id)=>{setSel(p=>{const n=new Set(p);n.has(id)?n.delete(id):n.add(id);return n;});};
+  const tAll=()=>{if(sa){setSel(new Set());setSa(false);}else{setSel(new Set(pr.map(r=>r.id)));setSa(true);}};
+  const hS=(f)=>{if(sb===f)setSd(d=>d==="asc"?"desc":"asc");else{setSb(f);setSd("desc");}setPg(1);};
+  const xD=(fmt)=>{const d=sel.size>0?reels.filter(r=>sel.has(r.id)):reels;if(fmt==="json"){const b=new Blob([JSON.stringify(d,null,2)],{type:"application/json"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=`${user}_reels.json`;a.click();}
+  else{const h=["#","Date","Headline","Topic","Likes","Comments","Views","Plays","Duration","CTA","URL","Caption","Transcript"];const rows=d.map((r,i)=>[i+1,r.timestamp||"",(r.caption||"").split("\\n")[0],dt(r.caption),r.likesCount||0,r.commentsCount||0,r.videoViewCount||0,r.videoPlayCount||0,r.videoDuration?r.videoDuration.toFixed(1)+"s":"",r.firstComment||"",r.url||"",(r.caption||"").replace(/\\n/g," "),(r.transcript||"").replace(/\\n/g," ")]);const csv=[h.join(","),...rows.map(r=>r.map(c=>`"${c}"`).join(","))].join("\\n");const b=new Blob([csv],{type:"text/csv"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=`${user}_reels.csv`;a.click();}};
+
+  const SB=({f,l,i})=><button onClick={()=>hS(f)} className={`flex items-center gap-1 text-xs transition-colors ${sb===f?"text-primary font-semibold":"text-muted hover:text-primary"}`}>{i}{l}{sb===f&&(sd==="asc"?<IC.CU/>:<IC.CD/>)}</button>;
+
+  return(
+    <div className="min-h-screen" style={{background:'#0f0f1a'}}>
+      <header className="sticky top-0 z-50 border-b" style={{background:'#0a0a12',borderColor:'#2d2d4a'}}>
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white" style={{background:'linear-gradient(135deg,#E1306C,#833AB4)'}}><IC.In/></div>
+            <div><h1 className="text-lg font-bold text-white">Reel Analytics</h1><p className="text-xs" style={{color:'#6b6b8d'}}>Instagram Scraper</p></div>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className={`text-xs flex items-center gap-1 px-2 py-1 rounded-full ${hv?"bg-green-400/10 text-green-400":"bg-yellow-400/10 text-yellow-400"}`}><IC.Ch/> {hv?"Apify Connected":"Checking..."}</span>
+            <button onClick={runDiag} className="text-xs flex items-center gap-1 transition-colors hover:text-primary" style={{color:'#6b6b8d'}}><IC.Wr/> Diagnostics</button>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-4 py-6">
+        {showD&&(
+          <div className="rounded-2xl p-6 mb-6 a2" style={{background:'#1a1a2e',border:'1px solid #2d2d4a'}}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-white font-semibold flex items-center gap-2"><IC.Wi/> Connection Diagnostics</h3>
+              <button onClick={()=>setShowD(false)} className="text-xs hover:text-white" style={{color:'#6b6b8d'}}>Close</button>
+            </div>
+            {!diag?(<div className="text-center py-4"><button onClick={runDiag} className="text-white px-6 py-2 rounded-lg text-sm" style={{background:'linear-gradient(135deg,#E1306C,#833AB4)'}}>Run Diagnostics</button></div>):
+            (<div className="space-y-2">{diag.map((r,i)=>(<div key={i} className="flex items-center gap-3 text-sm">
+              <span className={`w-2 h-2 rounded-full flex-shrink-0 ${r.status==="pass"?"bg-green-400":r.status==="run"?"bg-primary animate-pulse":"bg-red-400"}`}></span>
+              <span className="text-white w-44 flex-shrink-0 text-xs">{r.name}</span>
+              <span className={`text-xs ${r.status==="pass"?"text-green-400":"text-red-400"}`}>{r.status.toUpperCase()}</span>
+              {r.detail&&<span className="text-xs truncate" style={{color:'#6b6b8d'}}>{r.detail}</span>}
+            </div>))}</div>)}
+          </div>
+        )}
+
+        <div className="rounded-2xl p-6 mb-6 a2" style={{background:'#1a1a2e',border:'1px solid #2d2d4a'}}>
+          <div className="flex flex-col md:flex-row gap-4 items-end">
+            <div className="flex-1 w-full">
+              <label className="block text-xs mb-2 font-medium" style={{color:'#6b6b8d'}}>Instagram Username</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs" style={{color:'#6b6b8d'}}>@</span>
+                <input type="text" value={user} onChange={e=>setUser(e.target.value)} onKeyDown={e=>e.key==="Enter"&&scrape()} placeholder="e.g. theaisurfer" disabled={ph==="s"}
+                  className="w-full rounded-xl pl-7 pr-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none disabled:opacity-50 focus:border-primary" style={{background:'#0a0a12',border:'1px solid #2d2d4a'}} />
+              </div>
+            </div>
+            <div className="w-28">
+              <label className="block text-xs mb-2 font-medium" style={{color:'#6b6b8d'}}>Max Reels</label>
+              <input type="number" value={maxR} disabled={ph==="s"} onChange={e=>setMaxR(Math.min(200,Math.max(1,parseInt(e.target.value)||1)))}
+                className="w-full rounded-xl px-4 py-3 text-sm text-white focus:outline-none disabled:opacity-50" style={{background:'#0a0a12',border:'1px solid #2d2d4a'}} />
+            </div>
+            <button onClick={scrape} disabled={ph==="s"}
+              className="text-white px-8 py-3 rounded-xl text-sm font-bold transition-all flex items-center gap-2 whitespace-nowrap disabled:opacity-50"
+              style={{background:'linear-gradient(135deg,#E1306C,#833AB4)'}}>
+              {ph==="s"?<><IC.Lo/> Scraping...</>:<><IC.Se/> Scrape Reels</>}
+            </button>
+            {ph!=="idle"&&<button onClick={()=>{setPh("idle");setReels([]);setErr("");}} className="px-4 py-3 rounded-xl transition-colors" style={{background:'#242442',border:'1px solid #2d2d4a',color:'#e0e0e0'}}><IC.De/></button>}
+          </div>
+          {err&&<div className="mt-4 rounded-xl px-4 py-3" style={{background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)'}}><div className="flex items-center gap-2 text-sm text-red-400"><IC.Al/> {err}</div></div>}
+          {ph==="s"&&(
+            <div className="mt-4 flex items-center gap-3">
+              <IC.Lo/>
+              <div className="flex-1 rounded-full h-2 overflow-hidden" style={{background:'#0a0a12'}}><div className="h-full rounded-full animate-pulse" style={{width:'60%',background:'linear-gradient(90deg,#E1306C,#833AB4)'}}></div></div>
+              <span className="text-sm" style={{color:'#6b6b8d'}}>{st}</span>
+            </div>
+          )}
+        </div>
+
+        {ph==="r"&&reels.length>0&&(
+          <div className="a2">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
+              <div className="rounded-xl p-4 text-center" style={{background:'#1a1a2e',border:'1px solid #2d2d4a'}}><div className="text-2xl font-extrabold" style={{background:'linear-gradient(135deg,#E1306C,#833AB4)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{reels.length}</div><div className="text-xs" style={{color:'#6b6b8d'}}>Reels</div></div>
+              <div className="rounded-xl p-4 text-center" style={{background:'#1a1a2e',border:'1px solid #2d2d4a'}}><div className="text-2xl font-extrabold text-white">{fn(tl)}</div><div className="text-xs flex items-center justify-center gap-1" style={{color:'#6b6b8d'}}><IC.He/> Likes</div></div>
+              <div className="rounded-xl p-4 text-center" style={{background:'#1a1a2e',border:'1px solid #2d2d4a'}}><div className="text-2xl font-extrabold text-white">{fn(tc)}</div><div className="text-xs flex items-center justify-center gap-1" style={{color:'#6b6b8d'}}><IC.Ms/> Comments</div></div>
+              <div className="rounded-xl p-4 text-center" style={{background:'#1a1a2e',border:'1px solid #2d2d4a'}}><div className="text-2xl font-extrabold text-white">{fn(tv)}</div><div className="text-xs flex items-center justify-center gap-1" style={{color:'#6b6b8d'}}><IC.Ey/> Views</div></div>
+              <div className="rounded-xl p-4 text-center" style={{background:'#1a1a2e',border:'1px solid #2d2d4a'}}><div className="text-2xl font-extrabold" style={{background:'linear-gradient(135deg,#E1306C,#833AB4)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{sc}</div><div className="text-xs" style={{color:'#6b6b8d'}}>Selected</div></div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-3"><h2 className="text-white font-semibold">@{user}</h2><span className="text-xs" style={{color:'#6b6b8d'}}>{st}</span></div>
+              <div className="flex items-center gap-2">
+                {sc>0&&<span className="text-xs px-2 py-1 rounded-full" style={{background:'rgba(225,48,108,0.1)',color:'#E1306C'}}>{sc} selected</span>}
+                <button onClick={()=>xD("json")} className="text-xs px-3 py-2 rounded-lg transition-colors flex items-center gap-1" style={{background:'#242442',border:'1px solid #2d2d4a',color:'#e0e0e0'}}><IC.Dl/> JSON</button>
+                <button onClick={()=>xD("csv")} className="text-xs px-3 py-2 rounded-lg transition-colors flex items-center gap-1" style={{background:'#242442',border:'1px solid #2d2d4a',color:'#e0e0e0'}}><IC.Dl/> CSV</button>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4 mb-4 px-1">
+              <span className="text-xs" style={{color:'#6b6b8d'}}>Sort:</span>
+              <SB f="likes" l="Likes" i={<IC.He/>}/>
+              <SB f="comments" l="Comments" i={<IC.Ms/>}/>
+              <SB f="views" l="Views" i={<IC.Ey/>}/>
+              <SB f="ix" l="Interactions" i={<IC.Tr/>}/>
+              <SB f="timestamp" l="Date" i={<IC.Ca/>}/>
+            </div>
+
+            <div className="rounded-2xl overflow-hidden" style={{background:'#1a1a2e',border:'1px solid #2d2d4a'}}>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead><tr style={{borderBottom:'1px solid #2d2d4a'}}>
+                    <th className="px-3 py-3"><input type="checkbox" className="cb" checked={sa} onChange={tAll}/></th>
+                    <th className="px-3 py-3 text-xs font-medium" style={{color:'#6b6b8d'}}>#</th>
+                    <th className="px-3 py-3 text-xs font-medium" style={{color:'#6b6b8d'}}>Preview</th>
+                    <th className="px-3 py-3 text-xs font-medium" style={{color:'#6b6b8d'}}>Headline & Topic</th>
+                    <th className="px-3 py-3 text-xs font-medium text-right" style={{color:'#6b6b8d'}}><IC.He/></th>
+                    <th className="px-3 py-3 text-xs font-medium text-right" style={{color:'#6b6b8d'}}><IC.Ms/></th>
+                    <th className="px-3 py-3 text-xs font-medium text-right" style={{color:'#6b6b8d'}}><IC.Ey/></th>
+                    <th className="px-3 py-3 text-xs font-medium" style={{color:'#6b6b8d'}}>CTA</th>
+                    <th className="px-3 py-3 text-xs font-medium" style={{color:'#6b6b8d'}}>Date</th>
+                    <th className="px-3 py-3 text-xs font-medium" style={{color:'#6b6b8d'}}></th>
+                  </tr></thead>
+                  <tbody>
+                    {pr.map((reel,idx)=>{
+                      const gi=(pg-1)*pp+idx,hl=(reel.caption||"").split("\\n")[0],tp=dt(reel.caption),isE=exp===reel.id,isS=sel.has(reel.id),hT=!!reel.transcript;
+                      return(
+                        <React.Fragment key={reel.id}>
+                          <tr className="hover:bg-white/5 transition-colors" style={{borderBottom:'1px solid rgba(45,45,74,0.5)',background:isS?'rgba(225,48,108,0.05)':'transparent'}}>
+                            <td className="px-3 py-3"><input type="checkbox" className="cb" checked={isS} onChange={()=>tSel(reel.id)}/></td>
+                            <td className="px-3 py-3 text-sm" style={{color:'#6b6b8d'}}>{gi+1}</td>
+                            <td className="px-3 py-3">{reel.displayUrl?<img src={reel.displayUrl} alt="" className="w-14 h-14 rounded-lg object-cover" loading="lazy"/>:<div className="w-14 h-14 rounded-lg flex items-center justify-center" style={{background:'#0a0a12'}}><IC.In/></div>}</td>
+                            <td className="px-3 py-3">
+                              <div className="text-sm text-white max-w-[280px] t2" title={hl}>{hl}</div>
+                              <div className="flex items-center gap-2 mt-1">
+                                <span className="text-xs font-medium" style={{color:'#E1306C'}}>{tp}</span>
+                                {hT&&<span className="text-xs px-1.5 py-0.5 rounded-full flex items-center gap-1" style={{background:'rgba(34,197,94,0.1)',color:'#22c55e'}}><IC.Mi/> transcript</span>}
+                              </div>
+                            </td>
+                            <td className="px-3 py-3 text-sm text-white text-right font-medium">{fn(reel.likesCount)}</td>
+                            <td className="px-3 py-3 text-sm text-white text-right">{fn(reel.commentsCount)}</td>
+                            <td className="px-3 py-3 text-sm text-white text-right">{fn(reel.videoViewCount)}</td>
+                            <td className="px-3 py-3">{reel.firstComment?<span className="text-xs px-2 py-1 rounded-full font-medium" style={{background:'rgba(225,48,108,0.1)',color:'#E1306C'}}>{reel.firstComment}</span>:<span className="text-xs" style={{color:'#6b6b8d'}}>-</span>}</td>
+                            <td className="px-3 py-3 text-xs" style={{color:'#6b6b8d'}}>{fd(reel.timestamp)}</td>
+                            <td className="px-3 py-3"><div className="flex gap-1"><button onClick={()=>setExp(isE?null:reel.id)} className="p-1.5 rounded-lg transition-colors" style={{background:'#0a0a12',color:'#6b6b8d'}}><IC.Fi/></button><a href={reel.url} target="_blank" className="p-1.5 rounded-lg transition-colors" style={{background:'#0a0a12',color:'#6b6b8d'}}><IC.Ex/></a></div></td>
+                          </tr>
+                          {isE&&(
+                            <tr style={{background:'rgba(10,10,18,0.6)'}}><td colSpan={10} className="px-4 py-4">
+                              <div className="a2 space-y-3">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+                                  <div className="rounded-lg p-3 text-center" style={{background:'#242442'}}><div className="text-lg font-bold text-white">{fn(reel.videoViewCount)}</div><div className="text-xs" style={{color:'#6b6b8d'}}>Views</div></div>
+                                  <div className="rounded-lg p-3 text-center" style={{background:'#242442'}}><div className="text-lg font-bold text-white">{fn(reel.videoPlayCount)}</div><div className="text-xs" style={{color:'#6b6b8d'}}>Plays</div></div>
+                                  <div className="rounded-lg p-3 text-center" style={{background:'#242442'}}><div className="text-lg font-bold text-white">{reel.videoDuration?reel.videoDuration.toFixed(1)+'s':'N/A'}</div><div className="text-xs" style={{color:'#6b6b8d'}}>Duration</div></div>
+                                  <div className="rounded-lg p-3 text-center" style={{background:'#242442'}}><div className="text-lg font-bold text-white">{fn((reel.likesCount||0)+(reel.commentsCount||0))}</div><div className="text-xs" style={{color:'#6b6b8d'}}>Interactions</div></div>
+                                </div>
+                                <div><h4 className="text-xs font-semibold uppercase mb-1" style={{color:'#6b6b8d'}}>Caption</h4><p className="text-sm text-gray-300 whitespace-pre-wrap leading-relaxed">{reel.caption||"No caption"}</p></div>
+                                {reel.transcript&&<div className="rounded-xl p-4" style={{background:'rgba(34,197,94,0.05)',border:'1px solid rgba(34,197,94,0.2)'}}><h4 className="text-xs font-semibold uppercase mb-1 flex items-center gap-1" style={{color:'#22c55e'}}><IC.Mi/> Transcript</h4><p className="text-sm text-gray-300 whitespace-pre-wrap leading-relaxed">{reel.transcript}</p></div>}
+                                {reel.hashtags?.length>0&&<div className="flex flex-wrap gap-1">{reel.hashtags.map((h,i)=>(<span key={i} className="text-xs px-2 py-0.5 rounded-full" style={{background:'rgba(131,58,180,0.2)',color:'#a78bfa'}}>#{h}</span>))}</div>}
+                              </div>
+                            </td></tr>
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              {tp>1&&(
+                <div className="flex items-center justify-between px-4 py-3" style={{borderTop:'1px solid #2d2d4a'}}>
+                  <span className="text-xs" style={{color:'#6b6b8d'}}>Page {pg} of {tp}</span>
+                  <div className="flex items-center gap-1">
+                    <button onClick={()=>{setPg(p=>Math.max(1,p-1));setSa(false);}} disabled={pg===1} className="p-2 rounded-lg disabled:opacity-30 transition-colors" style={{color:'#6b6b8d'}}><I><polyline points="15 18 9 12 15 6"/></I></button>
+                    {Array.from({length:tp},(_,i)=>i+1).map(p=>((p<=3||p>=tp-2||Math.abs(p-pg)<=1)?(
+                      <button key={p} onClick={()=>{setPg(p);setSa(false);}} className="w-8 h-8 rounded-lg text-xs font-medium transition-colors" style={pg===p?{background:'#E1306C',color:'white'}:{color:'#6b6b8d'}}>{p}</button>
+                    ):(p===4&&pg>5)||(p===tp-3&&pg<tp-4)?(<span key={p} className="text-xs px-1" style={{color:'#6b6b8d'}}>...</span>):null))}
+                    <button onClick={()=>{setPg(p=>Math.min(tp,p+1));setSa(false);}} disabled={pg===tp} className="p-2 rounded-lg disabled:opacity-30 transition-colors" style={{color:'#6b6b8d'}}><I><polyline points="9 18 15 12 9 6"/></I></button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {ph==="idle"&&!err&&(
+          <div className="text-center py-20 a2">
+            <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{background:'#1a1a2e',border:'1px solid #2d2d4a'}}><IC.In/></div>
+            <h3 className="text-lg font-semibold text-white mb-2">Ready to Scrape</h3>
+            <p className="text-sm max-w-md mx-auto mb-4" style={{color:'#6b6b8d'}}>Enter username, click Scrape. Sort by likes/comments/views/interactions. Select reels with checkboxes.</p>
+            <button onClick={runDiag} className="text-sm flex items-center gap-1 mx-auto transition-colors hover:text-white" style={{color:'#E1306C'}}><IC.Wi/> Test Connection</button>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("r")).render(<App/>);
+</script>
+</body>
+</html>
